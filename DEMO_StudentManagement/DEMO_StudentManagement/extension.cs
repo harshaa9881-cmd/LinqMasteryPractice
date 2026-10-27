@@ -97,6 +97,71 @@ namespace DEMO_StudentManagement
             Console.WriteLine($"{fileName}: Completed");
         }
 
+        // ============================================
+        // 5. TASK.WHENALL - MULTIPLE RESULTS
+        // ============================================
+
+        public async Task WhenAllAsync()
+        {
+            Task<int> task1 = GetValueAsync(2, 2000);
+            Task<int> task2 = GetValueAsync(3, 3000);
+            Task<int> task3 = GetValueAsync(4, 1000);
+
+            //await GetValueAsync(2, 2000); // 2 seconds
+            //await GetValueAsync(3, 3000); // 3 seconds
+            //await GetValueAsync(4, 1000); // 1 second
+
+            int[] results = await Task.WhenAll(
+                task1, task2, task3);
+
+            Console.WriteLine("All tasks completed");
+
+            foreach (int result in results)
+            {
+                Console.WriteLine(result);
+            }
+        }
+
+        private async Task<int> GetValueAsync(
+            int value, int delay)
+        {
+            await Task.Delay(delay);
+            return value * 10;
+        }
+        // ============================================
+        // 6. TASK.WHENANY - FIRST TASK TO COMPLETE
+        // ============================================
+
+        public async Task WhenAnyAsync()
+        {
+            Task<string> task1 = GetMessageAsync(
+                "Operation A", 4000);
+
+            Task<string> task2 = GetMessageAsync(
+                "Operation B", 1500);
+
+            Task<string> task3 = GetMessageAsync(
+                "Operation C", 3000);
+
+            Task<string> completedTask = await Task.WhenAny(
+                task1, task2, task3);
+
+            Console.WriteLine(
+                $"First completed: {await completedTask}");
+
+            // Other tasks may still be running.
+            await Task.WhenAll(task1, task2, task3);
+
+            Console.WriteLine("All operations have now completed");
+        }
+
+        private async Task<string> GetMessageAsync(
+            string message, int delay)
+        {
+            await Task.Delay(delay);
+            return $"{message} finished";
+        }
+
 
         public async Task Run()
         {
