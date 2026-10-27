@@ -20,6 +20,21 @@ namespace DEMO_StudentManagement
             Console.WriteLine("Task 2 started");
         }
 
+        // ============================================
+        // 2. TASK<T> - RETURNING A VALUE
+        // ============================================
+
+        public async Task<int> TrackTaskAsync()
+        {
+            Console.WriteLine("Sub method started...");
+
+            await Task.Delay(6000);
+
+            Console.WriteLine("Sub method completed");
+
+            return 12;
+        }
+
         public async Task Run()
         {
 
