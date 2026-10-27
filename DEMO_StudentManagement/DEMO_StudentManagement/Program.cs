@@ -2,10 +2,10 @@
 
 public class Programs
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         LearnAsyncProgramming L = new LearnAsyncProgramming();
-        L.Run();
+        await L.Run();
        
 
 
