@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace DEMO_StudentManagement
@@ -48,6 +49,52 @@ namespace DEMO_StudentManagement
             Console.WriteLine($"Status: {task.Status}");
 
             Console.WriteLine("Main method completed");
+        }
+        // ============================================
+        // 3. SEQUENTIAL EXECUTION
+        // ============================================
+
+        public async Task SequentialAsync()
+        {
+            Stopwatch sw = Stopwatch.StartNew();
+
+            await DownloadFileAsync("File A", 2000);
+            await DownloadFileAsync("File B", 3000);
+
+            sw.Stop();
+
+            Console.WriteLine(
+                $"Sequential execution: {sw.ElapsedMilliseconds} ms");
+        }
+        // ============================================
+        // 4. CONCURRENT EXECUTION
+        // ============================================
+
+        public async Task ConcurrentAsync()
+        {
+            Stopwatch sw = Stopwatch.StartNew();
+
+            Task fileA = DownloadFileAsync("File A", 2000);
+            Task fileB = DownloadFileAsync("File B", 3000);
+
+            Console.WriteLine("Both operations have been started");
+
+            await Task.WhenAll(fileA, fileB);
+
+            sw.Stop();
+
+            Console.WriteLine(
+                $"Concurrent execution: {sw.ElapsedMilliseconds} ms");
+        }
+
+        private async Task DownloadFileAsync(string fileName, int delay)
+        {
+
+            Console.WriteLine($"{fileName}: Started");
+
+            await Task.Delay(delay);
+
+            Console.WriteLine($"{fileName}: Completed");
         }
 
 
