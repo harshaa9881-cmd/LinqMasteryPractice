@@ -34,6 +34,22 @@ namespace DEMO_StudentManagement
 
             return 12;
         }
+        public async Task TaskTrackingAsync()
+        {
+            Console.WriteLine("Main method started");
+            Task<int> task = TrackTaskAsync();
+            Console.WriteLine("Back to main method");
+            Console.WriteLine($"IsCompleted: {task.IsCompleted}");
+            Console.WriteLine($"Status: {task.Status}");
+            Console.WriteLine("Doing main method work...");
+            int result = await task;
+            Console.WriteLine($"Result: {result}");
+            Console.WriteLine($"IsCompleted: {task.IsCompleted}");
+            Console.WriteLine($"Status: {task.Status}");
+
+            Console.WriteLine("Main method completed");
+        }
+
 
         public async Task Run()
         {
@@ -41,7 +57,7 @@ namespace DEMO_StudentManagement
 
             await BasicAsync();
 
-            //await TaskTrackingAsync();
+            await TaskTrackingAsync();
             // await SequentialAsync();
             // await ConcurrentAsync();
             // await WhenAllAsync();
