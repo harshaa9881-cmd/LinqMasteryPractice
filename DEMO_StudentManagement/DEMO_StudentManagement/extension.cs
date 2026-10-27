@@ -161,6 +161,81 @@ namespace DEMO_StudentManagement
             await Task.Delay(delay);
             return $"{message} finished";
         }
+        // ============================================
+        // 7. EXCEPTION HANDLING
+        // ============================================
+
+        public async Task ExceptionHandlingAsync()
+        {
+            try
+            {
+                Console.WriteLine("Starting operation...");
+
+                await RiskyOperationAsync();
+
+                Console.WriteLine("Operation succeeded");
+            }
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine($"Operation error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected error: {ex.Message}");
+            }
+            finally
+            {
+                Console.WriteLine("Cleanup completed");
+            }
+        }
+
+        private async Task RiskyOperationAsync()
+        {
+            await Task.Delay(1000);
+
+            throw new InvalidOperationException(
+                "Learner could not be registered");
+        }
+        // ============================================
+        // 8. CANCELLATION TOKEN
+        // ============================================
+
+        public async Task CancellationAsync()
+        {
+            using CancellationTokenSource cts =
+                new CancellationTokenSource();
+
+            Task operation = ProcessLearnersAsync(cts.Token);
+
+            // Demonstration: request cancellation after 2 seconds.
+            await Task.Delay(2000);
+
+            cts.Cancel();
+
+            try
+            {
+                await operation;
+            }
+            catch (OperationCanceledException)
+            {
+                Console.WriteLine("Operation was cancelled");
+            }
+        }
+
+        private async Task ProcessLearnersAsync(
+            CancellationToken token)
+        {
+            for (int i = 1; i <= 10; i++)
+            {
+                token.ThrowIfCancellationRequested();
+
+                Console.WriteLine($"Processing learner {i}");
+
+                await Task.Delay(1000, token);
+            }
+
+            Console.WriteLine("All learners processed");
+        }
 
 
         public async Task Run()
