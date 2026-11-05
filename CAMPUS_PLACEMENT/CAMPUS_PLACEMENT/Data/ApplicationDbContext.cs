@@ -12,7 +12,7 @@ namespace CampusPlacementManagement.Data
         }
 
         public DbSet<College> Colleges { get; set; }
-
+       
         public DbSet<PlacementOfficer> PlacementOfficers { get; set; }
 
         public DbSet<Company> Companies { get; set; }
@@ -263,6 +263,8 @@ namespace CampusPlacementManagement.Data
                 .WithMany()
                 .HasForeignKey(h => h.UpdatedByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+           
         }
     }
 }
