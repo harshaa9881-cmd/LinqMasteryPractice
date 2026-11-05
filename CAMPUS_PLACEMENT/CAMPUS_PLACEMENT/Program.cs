@@ -44,6 +44,22 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<IJwtService, JwtService>();
 
+
+builder.Services.AddScoped<ICollegeRepository, CollegeRepository>();
+
+builder.Services.AddScoped<IPlacementOfficerRepository, PlacementOfficerRepository>();
+
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+
+builder.Services.AddScoped<ICompanyHRRepository, CompanyHRRepository>();
+
+
+builder.Services.AddScoped<ICollegeService, CollegeService>();
+builder.Services.AddScoped<IPlacementOfficerService, PlacementOfficerService>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<ICompanyHRService, CompanyHRService>();
+
+
 // JWT Configuration
 
 var jwtKey = builder.Configuration["Jwt:Key"];
